@@ -7,12 +7,16 @@ license = "MIT"
 readme = "README.org"
 packages = [{include = "wscribe", from = "src"}]
 
+[tool.poetry.scripts]
+wscribe = "wscribe.cli.main:cli"
+
 [tool.poetry.dependencies]
 # tool.*.group.*.dependencies$ : These can only be installed via poetry
 # tool.poetry.*$ : These can be installed via pip also
 python = "^3.10"
 structlog = "^23.1.0"
 faster-whisper = "^0.7.0"
+click = "^8.1.6"
 
 [tool.poetry.group.dev.dependencies]
 pudb = "^2022.1.3"

@@ -1,16 +1,67 @@
-A barebones cookiecutter for personal python projects
+* wscribe
+** Getting started
+*** Installation
+Currently only tested on Linux, if you face any installation issues please feel free to [[https://github.com/geekodour/wscribe/issues][create issues]].
+**** Set the required environment variables
+- Set ~WSCRIBE_MODELS_DIR~ : Path to the directory where whisper models should be downloaded to
+#+begin_src bash
+export WSCRIBE_MODELS_DIR=$XDG_DATA_HOME/whisper-models # example
+#+end_src
+**** Download the models
+- You can download the models directly [[https://huggingface.co/guillaumekln][from here]] using ~git lfs~, make sure you download/copy them to ~WSCRIBE_MODELS_DIR~
+- Otherwise, you can just use the helper script at [[https://github.com/geekodour/wscribe/blob/main/scripts/fw_dw_hf_wo_lfs.sh][scripts/fw_dw_hf_wo_lfs.sh]], just download it and execute it as per its instructions.
+**** Install package
+Assuming you already have a working python setup
+#+begin_src shell
+pip install wscribe
+#+end_src
+** Usage
+#+begin_src
+Usage: wscribe transcribe [OPTIONS] SOURCE DESTINATION
 
-* Getting started
-** Prerequisites
-** Installation
-** Examples
-* Usage
-* Clarifications
-FAQ type clarifications.
-* Contributing
-All contribution happens through PRs, any contributions is greatly appreciated, here are some ideas:
-- Bugfixes are welcome
-- Features are welcome
-- Tests are welcome
-- Suggestions & Criticism are welcome
-* Acknowledgements
+  Transcribes SOURCE to DESTINATION. Where SOURCE can be local path to an
+  audio file and DESTINATION needs to be a local path to a non-existing file
+
+Options:
+  -f, --format [json]             destication file format, currently only json
+                                  is supported  [default: json]
+  -m, --model [small|medium|large-v2]
+                                  model should already be downloaded
+                                  [default: medium]
+  -g, --gpu                       enable gpu, disabled by default
+  -d, --debug                     show debug logs
+  --help                          Show this message and exit.
+#+end_src
+#+begin_src shell
+wscribe transcribe audio.mp3 transcription.json # cpu
+wscribe transcribe video.mp4 transcription.json --gpu # use gpu
+#+end_src
+** Contributing
+All contribution happens through PRs, any contributions is greatly appreciated, bugfixes are welcome, features are welcome, tests are welcome, suggestions & criticism are welcome.
+** Roadmap
+- [-] Backends/Features
+  - [X] faster-whisper
+  - [ ] whisper.cpp
+  - [ ] Add support for [[https://github.com/guillaumekln/faster-whisper/issues/303][diarization]]
+  - [ ] Add VAD/other de-noising stuff etc.
+  - [ ] Other GPU backends other than CUDA?
+- [-] Inference UI
+  - [X] CLI
+    - [ ] statistics summary? time taken, playback speed vs transcription speed etc.
+  - [ ] REST API
+  - [ ] Streamlit UI
+    - [ ] Would be nice to compare output of multiple models next to each other
+- [ ] Editor UI
+  - [ ] Web based offline editor
+  - [ ] SRT and JSON editor
+  - [ ] Play audio(2x/3x) and it'll highlight current text which can be edited
+  - [ ] With wscribe JSON export, you'd also have the confidence score for each word color coded
+- [-] Audio Source
+  - [X] Local files
+  - [ ] Youtube link
+  - [ ] Google drive link
+- [-] Distribution
+  - [X] Python packaging
+  - [ ] Windows support(?)
+  - [ ] Package for Nix
+  - [ ] Package for Arch(AUR)
