@@ -1,0 +1,16 @@
+A barebones cookiecutter for personal python projects
+
+* Getting started
+** Prerequisites
+** Installation
+** Examples
+* Usage
+* Clarifications
+FAQ type clarifications.
+* Contributing
+All contribution happens through PRs, any contributions is greatly appreciated, here are some ideas:
+- Bugfixes are welcome
+- Features are welcome
+- Tests are welcome
+- Suggestions & Criticism are welcome
+* Acknowledgements
