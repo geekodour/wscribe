@@ -5,6 +5,7 @@ import structlog
 
 import localsetup  # my custom debug helper
 from wscribe import kitchen
+from faster_whisper import WhisperModel
 
 
 def main():

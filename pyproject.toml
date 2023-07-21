@@ -12,6 +12,7 @@ packages = [{include = "wscribe", from = "src"}]
 # tool.poetry.*$ : These can be installed via pip also
 python = "^3.10"
 structlog = "^23.1.0"
+faster-whisper = "^0.7.0"
 
 [tool.poetry.group.dev.dependencies]
 pudb = "^2022.1.3"
