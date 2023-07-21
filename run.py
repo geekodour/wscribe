@@ -4,7 +4,7 @@ import logging
 import structlog
 
 import localsetup  # my custom debug helper
-from bake import kitchen
+from wscribe import kitchen
 
 
 def main():

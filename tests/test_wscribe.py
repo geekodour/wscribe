@@ -2,7 +2,7 @@ import logging
 
 import pytest
 
-from bake import kitchen
+from wscribe import kitchen
 
 L = logging.getLogger(__name__)
 

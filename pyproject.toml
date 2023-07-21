@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "bake-python"
+name = "wscribe"
 version = "0.1.0"
-description = "A bakeshop"
+description = "Simple audio transcription tool using Whisper"
 authors = ["Hrishikesh Barman <oss@geekodour.org>"]
 license = "MIT"
 readme = "README.org"
-packages = [{include = "bake", from = "src"}]
+packages = [{include = "wscribe", from = "src"}]
 
 [tool.poetry.dependencies]
 # tool.*.group.*.dependencies$ : These can only be installed via poetry
