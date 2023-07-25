@@ -1,4 +1,4 @@
-use asdf
-layout poetry
 export PYTHONDONTWRITEBYTECODE=1
+export PROJECT_ROOT=$PWD
+export WSCRIBE_MODELS_DIR=$XDG_DATA_HOME/whisper-models
 export PYTHONBREAKPOINT="pudb.set_trace"
