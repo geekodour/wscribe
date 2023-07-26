@@ -12,7 +12,7 @@ from ..core import Backend
 
 DEFAULT_BEAM = 5
 LOGGER = structlog.get_logger()
-SUPPORTED_MODELS = ["small", "medium", "large-v2"]
+SUPPORTED_MODELS = ["tiny", "small", "medium", "large-v2"]
 
 
 @dataclass(kw_only=True)
@@ -25,6 +25,9 @@ class FasterWhisperBackend(Backend):
         return SUPPORTED_MODELS
 
     def model_path(self) -> str:
+        # TODO check some flag where
+        # TODO Think we're going to manually download the tiny model so this will not be needed, even in tests
+        # TODO Remove this
         local_model_path = os.path.join(
             os.environ["WSCRIBE_MODELS_DIR"], f"faster-whisper-{self.model_size}"
         )

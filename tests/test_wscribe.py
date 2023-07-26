@@ -1,4 +1,3 @@
-import logging
 import os
 
 import pytest
@@ -8,7 +7,7 @@ from wscribe.sources.local import LocalAudio
 
 
 class TestFastWhisper:
-    def test_transcribe_return_keys(self, faster_whisper_tools):
+    def test_json(self, faster_whisper_tools):
         model, sample_path = faster_whisper_tools
         audio = LocalAudio(source=sample_path).convert_audio()
         model.load()
@@ -25,9 +24,7 @@ class TestFastWhisper:
 
 @pytest.fixture
 def faster_whisper_tools():
-    model = FasterWhisperBackend(
-        model_size="small", device="cuda", quantization="float16"
-    )
+    model = FasterWhisperBackend(model_size="tiny", device="cpu", quantization="int8")
     sample_audio_path = os.path.join(
         os.environ["PROJECT_ROOT"], "examples", "assets", "jfk.wav"
     )

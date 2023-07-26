@@ -23,7 +23,7 @@ fi
 
 model_name="faster-whisper-$1"
 hf_url="$url_pfx/$model_name"
-size_regex='(small|medium|large-v2)'
+size_regex='(tiny|small|medium|large-v2)'
 
 if ! [[ $1 =~ $size_regex ]]; then
     printf "%s should match %s" "$1" "$size_regex"
