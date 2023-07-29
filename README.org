@@ -38,6 +38,12 @@ wscribe transcribe video.mp4 transcription.json --gpu # use gpu
 #+end_src
 ** Contributing
 All contribution happens through PRs, any contributions is greatly appreciated, bugfixes are welcome, features are welcome, tests are welcome, suggestions & criticism are welcome.
+*** Development
+- It uses poetry so you'd probably need a poetry setup
+- Install the project with ~poetry install~
+*** Testing
+- ~make test~
+- See other helper commands in ~Makefile~
 ** Roadmap
 - [-] Backends/Features
   - [X] faster-whisper
@@ -45,8 +51,12 @@ All contribution happens through PRs, any contributions is greatly appreciated, 
   - [ ] Add support for [[https://github.com/guillaumekln/faster-whisper/issues/303][diarization]]
   - [ ] Add VAD/other de-noising stuff etc.
   - [ ] Other GPU backends other than CUDA?
-- [-] Inference UI
-  - [X] CLI
+  - [ ] Add other export formats like VTT, SRT.
+  - [ ] Generated stuff is  timestamped by segment, maybe we can use llma to re-format it into transcription format.
+    - [[https://news.ycombinator.com/item?id=36900294][LeMUR: LLMs for Audio and Speech | Hacker News]]
+    - [[https://github.com/ggerganov/llama.cpp/pull/1773][llama : add grammar-based sampling by ejones · Pull Request #1773 · ggerganov/llama.cpp · GitHub]]
+- [ ] Inference UI
+  - [ ] CLI
     - [ ] statistics summary? time taken, playback speed vs transcription speed etc.
   - [ ] REST API
   - [ ] Streamlit UI

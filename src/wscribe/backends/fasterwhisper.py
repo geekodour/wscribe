@@ -9,6 +9,7 @@ from faster_whisper import WhisperModel  # type: ignore
 from tqdm import tqdm  # type: ignore
 
 from ..core import Backend
+from ..writers import format_timestamp
 
 DEFAULT_BEAM = 5
 LOGGER = structlog.get_logger()
@@ -25,9 +26,6 @@ class FasterWhisperBackend(Backend):
         return SUPPORTED_MODELS
 
     def model_path(self) -> str:
-        # TODO check some flag where
-        # TODO Think we're going to manually download the tiny model so this will not be needed, even in tests
-        # TODO Remove this
         local_model_path = os.path.join(
             os.environ["WSCRIBE_MODELS_DIR"], f"faster-whisper-{self.model_size}"
         )

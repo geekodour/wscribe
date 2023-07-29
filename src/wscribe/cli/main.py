@@ -8,6 +8,8 @@ import structlog
 from wscribe.backends.fasterwhisper import FasterWhisperBackend
 from wscribe.sources.local import LocalAudio
 
+from ..writers import WRITERS
+
 LOGGER = structlog.get_logger(ui="cli")
 
 
@@ -32,7 +34,7 @@ def cli():
     "-f",
     "--format",
     help="destication file format, currently only json is supported",
-    type=click.Choice(["json"], case_sensitive=True),
+    type=click.Choice(list(WRITERS.keys()), case_sensitive=True),
     default="json",
     show_default=True,
 )
@@ -65,8 +67,8 @@ def transcribe(source, destination, format, model, gpu, debug):
     log.debug(f"model loaded with {device}-{quantization}")
     audio = LocalAudio(source=source).convert_audio()
     result = m.transcribe(input=audio)
-    with open(destination, "w") as f:
-        json.dump(result, f)
+    writer = WRITERS[format](result=result, destination=destination)
+    writer.write()
 
 
 @cli.command()
