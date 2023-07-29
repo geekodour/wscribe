@@ -90,14 +90,17 @@ class WriteJSON(ResultWriter):
 
     def transform_result(self, result: Mapping[str, Any]):
         for s in result["data"]:
-            s["start"] = format_timestamp(s["start"])
-            s["end"] = format_timestamp(s["end"])
+            s["start"] = self.format_timestamp(s["start"])
+            s["end"] = self.format_timestamp(s["end"])
             s["text"] = s["text"].strip()
             if len(s["words"]) > 0:
                 for w in s["words"]:
-                    w["start"] = format_timestamp(w["start"])
-                    w["end"] = format_timestamp(w["end"])
+                    w["start"] = self.format_timestamp(w["start"])
+                    w["end"] = self.format_timestamp(w["end"])
                     w["text"] = w["text"].strip()
+
+    def format_timestamp(self, seconds: float):
+        return format_timestamp(seconds=seconds, always_include_hours=True)
 
 
 WRITERS: Mapping[str, typing.Type[ResultWriter]] = {
