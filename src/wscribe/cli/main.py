@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import time
 
 import click
 import structlog
@@ -8,6 +9,7 @@ import structlog
 from wscribe.backends.fasterwhisper import FasterWhisperBackend
 from wscribe.sources.local import LocalAudio
 
+from ..core import SUPPORTED_MODELS
 from ..writers import WRITERS
 
 LOGGER = structlog.get_logger(ui="cli")
@@ -42,7 +44,7 @@ def cli():
     "-m",
     "--model",
     help="model should already be downloaded",
-    type=click.Choice(["small", "medium", "large-v2"], case_sensitive=True),
+    type=click.Choice(SUPPORTED_MODELS, case_sensitive=True),
     default="medium",
     show_default=True,
 )
@@ -50,7 +52,9 @@ def cli():
     "-g", "--gpu", help="enable gpu, disabled by default", default=False, is_flag=True
 )
 @click.option("-d", "--debug", help="show debug logs", default=False, is_flag=True)
-def transcribe(source, destination, format, model, gpu, debug):
+@click.option("-s", "--stats", help="print stats", default=False, is_flag=True)
+@click.option("-q", "--quiet", help="no progress bar", default=False, is_flag=True)
+def transcribe(source, destination, format, model, gpu, debug, stats, quiet):
     """
     Transcribes SOURCE to DESTINATION. Where SOURCE can be local path to an audio/video file and
     DESTINATION needs to be a local path to a non-existing file.
@@ -65,10 +69,35 @@ def transcribe(source, destination, format, model, gpu, debug):
     m = FasterWhisperBackend(model_size=model, device=device, quantization=quantization)
     m.load()
     log.debug(f"model loaded with {device}-{quantization}")
+
+    audio_start_time = time.perf_counter()
     audio = LocalAudio(source=source).convert_audio()
-    result = m.transcribe(input=audio)
+    audio_end_time = time.perf_counter()
+
+    ts_start_time = time.perf_counter()
+    result = m.transcribe(input=audio, silent=quiet)
+    ts_end_time = time.perf_counter()
+
     writer = WRITERS[format](result=result, destination=destination)
     writer.write()
+
+    if stats:
+        original_audio_time = audio.shape[0] / LocalAudio.sampling_rate
+        transcription_time = ts_end_time - ts_start_time
+        audio_conversion_time = audio_end_time - audio_start_time
+        click.echo(
+            " | ".join(
+                [
+                    device,
+                    quantization,
+                    model,
+                    str(round(audio_conversion_time, 1)) + "s",
+                    str(round(original_audio_time / 60, 1)) + "m",
+                    str(round(transcription_time / 60, 1)) + "m",
+                    str(int(original_audio_time / transcription_time)) + "x",
+                ]
+            )
+        )
 
 
 @cli.command()

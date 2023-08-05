@@ -13,7 +13,6 @@ from ..writers import format_timestamp
 
 DEFAULT_BEAM = 5
 LOGGER = structlog.get_logger()
-SUPPORTED_MODELS = ["tiny", "small", "medium", "large-v2"]
 
 
 @dataclass(kw_only=True)
@@ -21,9 +20,6 @@ class FasterWhisperBackend(Backend):
     device: str = "cpu"  # cpu, cuda
     quantization: str = "int8"  # int8, float16
     model: WhisperModel | None = None
-
-    def supported_model_sizes(self) -> list[str]:
-        return SUPPORTED_MODELS
 
     def model_path(self) -> str:
         local_model_path = os.path.join(
@@ -40,7 +36,9 @@ class FasterWhisperBackend(Backend):
             self.model_path(), device=self.device, compute_type=self.quantization
         )
 
-    def transcribe(self, input: np.ndarray) -> list[TranscribedData]:
+    def transcribe(
+        self, input: np.ndarray, silent: bool = False
+    ) -> list[TranscribedData]:
         """
         Return word level transcription data.
         World level probabities are calculated by ctranslate2.models.Whisper.align
@@ -52,7 +50,10 @@ class FasterWhisperBackend(Backend):
             beam_size=DEFAULT_BEAM,
             word_timestamps=True,
         )
-        with tqdm(total=info.duration, unit_scale=True, unit="playback") as pbar:
+        # ps = playback seconds
+        with tqdm(
+            total=info.duration, unit_scale=True, unit="ps", disable=silent
+        ) as pbar:
             for segment in segments:
                 if segment.words is None:
                     continue
@@ -72,5 +73,6 @@ class FasterWhisperBackend(Backend):
                     ],
                 }
                 result.append(segment_extract)
-                pbar.update(segment.end - pbar.last_print_n)
+                if not silent:
+                    pbar.update(segment.end - pbar.last_print_n)
         return result

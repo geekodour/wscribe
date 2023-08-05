@@ -46,15 +46,31 @@ wscribe transcribe video.mp4 transcription.srt -g -f srt
 wscribe transcribe video.mp4 transcription.vtt -g -f vtt -m tiny
 wscribe transcribe --help # all help info
 #+end_src
+** Numbers
+- These numbers are from machine under normal web-browsing workload running on a single RTX3050
+- Audio conversion takes around 1s
+- Also check [[https://github.com/ggerganov/whisper.cpp/issues/1127][this explanation about the speed difference]].
+| device | quant   | model    | original playback | transcription | playback/transcription |
+|--------+---------+----------+-------------------+---------------+------------------------|
+| cuda   | float16 | tiny     | 6.3m              | 0.1m          |                    68x |
+| cuda   | float16 | small    | 6.3m              | 0.2m          |                    29x |
+| cuda   | float16 | medium   | 6.3m              | 0.4m          |                    14x |
+| cuda   | float16 | large-v2 | 6.3m              | 0.8m          |                     7x |
+| cpu    | int8    | tiny     | 6.3m              | 0.2m          |                    25x |
+| cpu    | int8    | small    | 6.3m              | 1.3m          |                     4x |
+| cpu    | int8    | medium   | 6.3m              | 3.6m          |                  ~1.7x |
+| cpu    | int8    | large-v2 | 6.3m              | 3.6m          |                  ~0.9x |
+
 ** Roadmap
 *** Processing Backends
 - [X] [[https://github.com/guillaumekln/faster-whisper][faster-whisper]]
-- [ ] [[https://github.com/ggerganov/whisper.cpp][whisper.cpp]], also see [[https://github.com/ggerganov/whisper.cpp/issues/1127][this explanation about the speed difference]].
+- [ ] [[https://github.com/ggerganov/whisper.cpp][whisper.cpp]]
 - [ ] [[https://github.com/m-bain/whisperX][WhisperX]], diarization is something to look forward to
 *** Transcription Features
-  - [ ] Add support for [[https://github.com/guillaumekln/faster-whisper/issues/303][diarization]]
-  - [ ] Add VAD/other de-noising stuff etc.
-  - [ ] Add local llm integration with [[https://github.com/ggerganov/llama.cpp/pull/1773][llama.cpp]] or something similar for summary and [[https://news.ycombinator.com/item?id=36900294][othe possible things]]. It can be also used to generate more accurate transcript. Whisper mostly generates sort of a subtitle, for converting subtitle into transcription we need to group the subtitle. This can be done in various ways. Eg. By speaker if diarization is supported, by time chunks etc. By using LLMs or maybe other NLP techniques we'll also be able to do this with things like break in dialogue etc. Have to explore.
+- [ ] Add support for [[https://github.com/guillaumekln/faster-whisper/issues/303][diarization]]
+- [ ] Add translation
+- [ ] Add VAD/other de-noising stuff etc.
+- [ ] Add local llm integration with [[https://github.com/ggerganov/llama.cpp/pull/1773][llama.cpp]] or something similar for summary and [[https://news.ycombinator.com/item?id=36900294][othe possible things]]. It can be also used to generate more accurate transcript. Whisper mostly generates sort of a subtitle, for converting subtitle into transcription we need to group the subtitle. This can be done in various ways. Eg. By speaker if diarization is supported, by time chunks etc. By using LLMs or maybe other NLP techniques we'll also be able to do this with things like break in dialogue etc. Have to explore.
 *** Inference interfaces
 - [-] Python CLI
   - [X] Basic CLI

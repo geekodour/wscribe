@@ -12,7 +12,7 @@ def setup_stdlogger():
     logging.basicConfig(
         format=FORMAT,
         stream=sys.stdout,  # https://12factor.net/logs
-        level=logging.INFO,
+        level=None,
         datefmt=DATEFMT,
     )
 

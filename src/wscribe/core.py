@@ -7,6 +7,7 @@ import structlog
 from faster_whisper.audio import decode_audio  # type: ignore
 
 LOGGER = structlog.get_logger()
+SUPPORTED_MODELS = ["tiny", "small", "medium", "large-v2"]
 
 WordData = TypedDict(
     "WordData", {"text": str, "start": float | str, "end": float | str, "score": float}
@@ -46,7 +47,7 @@ class Backend:
         raise NotImplementedError()
 
     def supported_model_sizes(self) -> list[str]:
-        raise NotImplementedError()
+        return SUPPORTED_MODELS
 
     def load(self):
         raise NotImplementedError()
@@ -62,6 +63,7 @@ class Backend:
 class Audio:
     source: str
     local_source_path: str = ""
+    sampling_rate: int = 16000
 
     def fetch_audio(self):
         """
@@ -79,4 +81,4 @@ class Audio:
         raise NotImplementedError()
 
     def convert_audio(self) -> np.ndarray:
-        return decode_audio(self.local_source_path, split_stereo=False)  # type: ignore
+        return decode_audio(self.local_source_path, split_stereo=False, sampling_rate=self.sampling_rate)  # type: ignore
