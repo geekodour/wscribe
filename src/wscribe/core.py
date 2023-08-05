@@ -1,11 +1,26 @@
+from ctypes import Union
 from dataclasses import dataclass
-from typing import Any, Mapping
+from typing import Any, Mapping, TypedDict
 
 import numpy as np
 import structlog
 from faster_whisper.audio import decode_audio  # type: ignore
 
 LOGGER = structlog.get_logger()
+
+WordData = TypedDict(
+    "WordData", {"text": str, "start": float | str, "end": float | str, "score": float}
+)
+TranscribedData = TypedDict(
+    "TranscribedData",
+    {
+        "text": str,
+        "start": float | str,
+        "end": float | str,
+        "score": float,
+        "words": list[WordData],
+    },
+)
 
 
 @dataclass(kw_only=True)
@@ -36,7 +51,7 @@ class Backend:
     def load(self):
         raise NotImplementedError()
 
-    def transcribe(self, input: np.ndarray) -> Mapping[str, Any]:
+    def transcribe(self, input: np.ndarray) -> list[TranscribedData]:
         """
         This should return word level transcription data.
         """

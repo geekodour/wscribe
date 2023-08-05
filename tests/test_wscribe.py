@@ -12,9 +12,8 @@ class TestFastWhisper:
         audio = LocalAudio(source=sample_path).convert_audio()
         model.load()
         data = model.transcribe(input=audio)
-        assert set(data.keys()) == {"data", "language"}
-        assert set(data["data"][0].keys()) == {"text", "start", "end", "score", "words"}
-        assert set(data["data"][0]["words"][0].keys()) == {
+        assert set(data[0].keys()) == {"text", "start", "end", "score", "words"}
+        assert set(data[0]["words"][0].keys()) == {
             "text",
             "start",
             "end",

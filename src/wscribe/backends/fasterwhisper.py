@@ -8,7 +8,7 @@ import structlog
 from faster_whisper import WhisperModel  # type: ignore
 from tqdm import tqdm  # type: ignore
 
-from ..core import Backend
+from ..core import Backend, TranscribedData
 from ..writers import format_timestamp
 
 DEFAULT_BEAM = 5
@@ -40,24 +40,23 @@ class FasterWhisperBackend(Backend):
             self.model_path(), device=self.device, compute_type=self.quantization
         )
 
-    def transcribe(self, input: np.ndarray) -> Mapping[str, Any]:
+    def transcribe(self, input: np.ndarray) -> list[TranscribedData]:
         """
         Return word level transcription data.
         World level probabities are calculated by ctranslate2.models.Whisper.align
         """
-        result: MutableMapping[str, Any] = {"data": []}
+        result: list[TranscribedData] = []
         assert self.model is not None
         segments, info = self.model.transcribe(
             input,
             beam_size=DEFAULT_BEAM,
             word_timestamps=True,
         )
-        result["language"] = info.language
         with tqdm(total=info.duration, unit_scale=True, unit="playback") as pbar:
             for segment in segments:
                 if segment.words is None:
                     continue
-                segment_extract = {
+                segment_extract: TranscribedData = {
                     "text": segment.text,
                     "start": segment.start,
                     "end": segment.end,
@@ -72,6 +71,6 @@ class FasterWhisperBackend(Backend):
                         for w in segment.words
                     ],
                 }
-                result["data"].append(segment_extract)
+                result.append(segment_extract)
                 pbar.update(segment.end - pbar.last_print_n)
         return result
