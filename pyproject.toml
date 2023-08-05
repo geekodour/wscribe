@@ -1,10 +1,11 @@
 [tool.poetry]
 name = "wscribe"
-version = "0.1.0"
-description = "Simple audio transcription tool using Whisper"
+version = "0.1.2"
+description = "ez audio transcription tool with flexible processing and post-processing options"
 authors = ["Hrishikesh Barman <oss@geekodour.org>"]
+homepage = "https://github.com/geekodour/wscribe"
 license = "MIT"
-readme = "README.org"
+readme = "docs/README.md"
 packages = [{include = "wscribe", from = "src"}]
 
 [tool.poetry.scripts]

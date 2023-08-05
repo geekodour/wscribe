@@ -74,7 +74,7 @@ def transcribe(source, destination, format, model, gpu, debug):
 @cli.command()
 def info():
     """Information about related files and directories"""
-    click.echo(f"Model directory: {os.environ['WSCRIBE_MODELS_DIR']}")
+    click.echo(f"WSCRIBE_MODELS_DIR: {os.environ['WSCRIBE_MODELS_DIR']}")
 
 
 if __name__ == "__main__":
