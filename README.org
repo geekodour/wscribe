@@ -78,6 +78,7 @@ wscribe transcribe --help # all help info
 - [ ] REST endpoint
   - [ ] Basic server to run wscribe via an API.
   - [ ] Possibly add glue code to expose it via CFtunnels or something similar
+- [ ] GUI
 *** Audio sources
 - [X] Local files
 - [ ] Youtube
