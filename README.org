@@ -70,7 +70,7 @@ wscribe transcribe --help # all help info
 - [ ] Add support for [[https://github.com/guillaumekln/faster-whisper/issues/303][diarization]]
 - [ ] Add translation
 - [ ] Add VAD/other de-noising stuff etc.
-- [ ] Add local llm integration with [[https://github.com/ggerganov/llama.cpp/pull/1773][llama.cpp]] or something similar for summary and [[https://news.ycombinator.com/item?id=36900294][othe possible things]]. It can be also used to generate more accurate transcript. Whisper mostly generates sort of a subtitle, for converting subtitle into transcription we need to group the subtitle. This can be done in various ways. Eg. By speaker if diarization is supported, by time chunks etc. By using LLMs or maybe other NLP techniques we'll also be able to do this with things like break in dialogue etc. Have to explore.
+- [ ] Add local llm integration with [[https://github.com/ggerganov/llama.cpp/pull/1773][llama.cpp]] or something similar for summary and [[https://news.ycombinator.com/item?id=36900294][othe possible things]]. It can be also used to generate more accurate transcript. Whisper mostly generates sort of a subtitle, for [[https://www.reddit.com/r/MLQuestions/comments/ks5ez5/how_are_automatic_video_chapters_for_youtube/][converting]] subtitle [[https://www.reddit.com/r/accessibility/comments/xnfibv/most_accurate_way_to_turn_a_srt_file_into_a/][into transcription]] we need to group the subtitle. This can be done in various ways. Eg. By speaker if diarization is supported, by time chunks etc. By using LLMs or maybe other NLP techniques we'll also be able to do this with things like break in dialogue etc. Have to explore.
 *** Inference interfaces
 - [-] Python CLI
   - [X] Basic CLI
