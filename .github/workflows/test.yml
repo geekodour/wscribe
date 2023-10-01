@@ -16,7 +16,7 @@ jobs:
       PROJECT_ROOT: ${{github.workspace}}
       WSCRIBE_MODELS_DIR: ${{github.workspace}}/models
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Cache whisper model
         id: cache-whisper-model
         uses: actions/cache@v3
