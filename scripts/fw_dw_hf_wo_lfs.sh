@@ -13,7 +13,7 @@ fi
 url_pfx="https://huggingface.co/guillaumekln"
 function fetch {
     git clone "$hf_url" "$WSCRIBE_MODELS_DIR/$model_name"
-    curl -L "$hf_url/resolve/main/model.bin" -o "$WSCRIBE_MODELS_DIR/$model_name/model.bin"
+    git lfs pull || curl -L "$hf_url/resolve/main/model.bin" -o "$WSCRIBE_MODELS_DIR/$model_name/model.bin"
 }
 
 
