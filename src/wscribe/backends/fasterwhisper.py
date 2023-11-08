@@ -37,7 +37,11 @@ class FasterWhisperBackend(Backend):
         )
 
     def transcribe(
-        self, input: np.ndarray, language: Optional[str] = None, silent: bool = False
+        self,
+        input: np.ndarray,
+        language: Optional[str] = None,
+        silent: bool = False,
+        vad: bool = False,
     ) -> list[TranscribedData]:
         """
         Return word level transcription data.
@@ -50,6 +54,7 @@ class FasterWhisperBackend(Backend):
             beam_size=DEFAULT_BEAM,
             word_timestamps=True,
             language=language,
+            vad_filter=vad,
         )
         # ps = playback seconds
         with tqdm(
