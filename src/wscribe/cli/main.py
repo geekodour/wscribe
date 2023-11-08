@@ -51,7 +51,7 @@ def cli():
 @click.option(
     "-g", "--gpu", help="enable gpu, disabled by default", default=False, is_flag=True
 )
-@click.option("-l", "--language", help="choose language (skips autodetection)")
+@click.option("-l", "--language", help="language code eg. en/fr (skips autodetection)")
 @click.option("-d", "--debug", help="show debug logs", default=False, is_flag=True)
 @click.option("-s", "--stats", help="print stats", default=False, is_flag=True)
 @click.option("-q", "--quiet", help="no progress bar", default=False, is_flag=True)
