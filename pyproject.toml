@@ -16,7 +16,7 @@ wscribe = "wscribe.cli.main:cli"
 # tool.poetry.*$ : These can be installed via pip also
 python = "^3.10"
 structlog = "^23.1.0"
-faster-whisper = "^0.7.0"
+faster-whisper = "^0.9.0"
 click = "^8.1.6"
 
 [tool.poetry.group.dev.dependencies]
