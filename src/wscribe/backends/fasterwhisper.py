@@ -1,7 +1,7 @@
 import math
 import os
 from dataclasses import dataclass
-from typing import Any, Mapping, MutableMapping
+from typing import Any, Mapping, MutableMapping, Optional
 
 import numpy as np
 import structlog
@@ -37,7 +37,7 @@ class FasterWhisperBackend(Backend):
         )
 
     def transcribe(
-        self, input: np.ndarray, language: str = None, silent: bool = False
+        self, input: np.ndarray, language: Optional[str] = None, silent: bool = False
     ) -> list[TranscribedData]:
         """
         Return word level transcription data.
