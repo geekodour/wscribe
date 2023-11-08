@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "wscribe"
-version = "0.1.4"
+version = "0.1.5"
 description = "ez audio transcription tool with flexible processing and post-processing options"
 authors = ["Hrishikesh Barman <oss@geekodour.org>"]
 homepage = "https://github.com/geekodour/wscribe"
