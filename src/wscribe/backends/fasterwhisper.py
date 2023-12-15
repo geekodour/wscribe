@@ -33,7 +33,7 @@ class FasterWhisperBackend(Backend):
 
     def load(self) -> None:
         self.model = WhisperModel(
-            self.model_path(), device=self.device, compute_type=self.quantization
+            self.model_path(), device=self.device, compute_type=self.quantization, cpu_threads=self.num_cpu_threads
         )
 
     def transcribe(

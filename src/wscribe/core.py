@@ -28,6 +28,7 @@ TranscribedData = TypedDict(
 class Backend:
     name: str = "faster-whisper"
     model_size: str
+    num_cpu_threads: int = 1
 
     def __post_init__(self):
         if self.model_size not in self.supported_model_sizes():
@@ -45,6 +46,13 @@ class Backend:
         Returns the local path to the model, error-out if unavailable
         """
         raise NotImplementedError()
+
+    def num_cpu_threads(self) -> int:
+        """
+        Returns number of CPU threads to be used for inference
+        """
+        return self.num_cpu_threads
+
 
     def supported_model_sizes(self) -> list[str]:
         return SUPPORTED_MODELS
