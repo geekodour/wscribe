@@ -51,6 +51,9 @@ def cli():
 @click.option(
     "-g", "--gpu", help="enable gpu, disabled by default", default=False, is_flag=True
 )
+@click.option(
+    "-w", "--workers", help="number of cpu workers, if using cpu, 4 by default", default=4, is_flag=False
+)
 @click.option("-l", "--language", help="language code eg. en/fr (skips autodetection)")
 @click.option("-d", "--debug", help="show debug logs", default=False, is_flag=True)
 @click.option("-s", "--stats", help="print stats", default=False, is_flag=True)
@@ -63,7 +66,7 @@ def cli():
     is_flag=True,
 )
 def transcribe(
-    source, destination, format, model, gpu, language, debug, stats, quiet, vad
+    source, destination, format, model, gpu, workers, language, debug, stats, quiet, vad
 ):
     """
     Transcribes SOURCE to DESTINATION. Where SOURCE can be local path to an audio/video file and
@@ -76,7 +79,7 @@ def transcribe(
     )
 
     device, quantization = ("cuda", "float16") if gpu else ("cpu", "int8")
-    m = FasterWhisperBackend(model_size=model, device=device, quantization=quantization)
+    m = FasterWhisperBackend(model_size=model, device=device, quantization=quantization, num_cpu_threads=workers)
     m.load()
     log.debug(f"model loaded with {device}-{quantization}")
 
