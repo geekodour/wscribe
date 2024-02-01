@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Cache whisper model
         id: cache-whisper-model
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           key: "tiny" # static key, always cache hit, manually invalidate
           path: ${{env.WSCRIBE_MODELS_DIR}}
